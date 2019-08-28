@@ -2,28 +2,27 @@
 
 #define array_count(array) sizeof(array)/sizeof(array[0])
 
-RgbLed::RgbLed(int pin, CRGB offColor, CRGB onColor, int ledCount) {
+RgbLed::RgbLed(int pin, CRGB offColour, CRGB onColour, int ledCount) {
   this->ledCount = ledCount;
   this->pin = pin;
+  this->twoColour = true;
+  this->onColour = onColour;
+  this->offColour = offColour;
 }
 
-RgbLed::RgbLed(int pin, CRGB offColor, CRGB[] onColor) {
-//
-//
-//
-// void modifyArray( int b[]) {
-//   int size = array_count(b);
-// }
-//
-
+RgbLed::RgbLed(int pin, CRGB offColour, CRGB onColours[]) {
+  this->pin = pin;
+  this->twoColour = false;
+  this->ledCount = array_count(onColours);
+  this->offColour = offColour;
+  this->onColours = onColours;
 }
 
-void RgbLed::init() {
-  leds = new CRGB[ledCount];
-  FastLED.addLeds<WS2812B, pin, RGB>(leds, ledCount);
-}
-
-
+//void RgbLed::init() {
+//  leds = new CRGB[ledCount];
+//  init<pin>();
+////  FastLED.addLeds<WS2812B, pin, RGB>(leds, ledCount);
+//}
 
 //
 // void MySensorsButton::sendState() {

@@ -5,14 +5,15 @@
 Button repulsorButton(2);
 Button stonesButton(3);
 Button servoButton(4);
+RgbLed led(6, CRGB::Black, CRGB::Red, 3);
 
 void setup() {
   repulsorButton.init();
   stonesButton.init();
   servoButton.init();
-
+  led.init();
   
-  FastLED.addLeds<WS2812B, LED_PIN, RGB>(leds, LED_COUNT);
+//  FastLED.addLeds<WS2812B, LED_PIN, RGB>(leds, LED_COUNT);
   Serial.begin(9600);
 }
 
@@ -31,14 +32,14 @@ void loop() {
 //    FastLED.showColor(CHSV(130, 150, 0));
 //  }
 
-  checkButton(2, 0);
-  checkButton(3, 1);
-  checkButton(4, 2);
+//  checkButton(2, 0);
+//  checkButton(3, 1);
+//  checkButton(4, 2);
   delay(50);
-  FastLED.show();
+//  FastLED.show();
 }
 
-
-void checkButton(int pin, int led) {
-  leds[led] = (digitalRead(pin) == HIGH) ? CRGB::Green : CRGB::Red;
-}
+//
+//void checkButton(int pin, int led) {
+//  leds[led] = (digitalRead(pin) == HIGH) ? CRGB::Green : CRGB::Red;
+//}

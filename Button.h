@@ -2,6 +2,7 @@
   #define __MY_BUTTON_H__
 
 #include <stdint.h>
+#include "Arduino.h"
 
 class Button {
   private:
