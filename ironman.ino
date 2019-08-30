@@ -1,45 +1,47 @@
 
-#include "Button.h"
-#include "RgbLed.h"
+#include "KButton.h"
+#include "KRgbLed.h"
+#include "KServo.h"
 
-Button repulsorButton(2);
-Button stonesButton(3);
-Button servoButton(4);
-RgbLed led(6, CRGB::Black, CRGB::Red, 3);
+KButton repulsorButton(2);
+KButton stonesButton(3);
+KButton servoButton(4);
+KServo servo(10);
+
+//CRGB stones[] = {CRGB::Red, CRGB::Blue, CRGB::Green};
+
+KRgbLed led1(6, 3, CRGB::Black, CRGB::Red);
+KRgbLed led2(6, 3, CRGB::Black, CRGB::Blue);
 
 void setup() {
+  Serial.begin(9600);
   repulsorButton.init();
   stonesButton.init();
   servoButton.init();
-  led.init();
-  
-//  FastLED.addLeds<WS2812B, LED_PIN, RGB>(leds, LED_COUNT);
-  Serial.begin(9600);
+  servo.init(50, 103);
+  led1.init<6>();
+  led2.init<6>();
 }
 
 void loop() {
-  // read the state of the pushbutton value:
-//  Serial.print("1 = ");
-//  Serial.print(digitalRead(2));
-//  Serial.print(" 2 = ");
-//  Serial.print(digitalRead(3));
-//  Serial.print(" 3 = ");
-//  buttonState = digitalRead(4);
-//  Serial.println(buttonState);
-//  if(buttonState == HIGH) {
-//    FastLED.showColor(CHSV(130, 150, buttonState * 200));
-//  } else {
-//    FastLED.showColor(CHSV(130, 150, 0));
-//  }
-
-//  checkButton(2, 0);
-//  checkButton(3, 1);
-//  checkButton(4, 2);
-  delay(50);
-//  FastLED.show();
+  check(repulsorButton, led1);
+  check(stonesButton, led2);
+ 
+  if(servoButton.isChange()) {
+   if(servoButton.isPressed()) {
+    if(servo.isOpen()) {
+     servo.close(); 
+    } else {
+     servo.open(); 
+    }
+   }
+  }
 }
 
-//
-//void checkButton(int pin, int led) {
-//  leds[led] = (digitalRead(pin) == HIGH) ? CRGB::Green : CRGB::Red;
-//}
+void check(KButton &b, KRgbLed &l) {
+  if(b.isChange()) {
+    if(b.isPressed()) {
+      l.switchState();
+    }
+  }
+}

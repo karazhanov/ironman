@@ -4,14 +4,15 @@
 #include <stdint.h>
 #include "Arduino.h"
 
-class Button {
+class KButton {
   private:
     uint8_t pin;
     bool pressed;
+    bool changed;
   public:
-    Button(uint8_t pin);
+    KButton(uint8_t pin);
     void init();
-    void check();
+    bool isChange();
     bool isPressed();
 };
 

@@ -4,11 +4,7 @@
 #include <stdint.h>
 #include <FastLED.h>
 
-// #define LED_COUNT 3
-// #define LED_PIN 6
-// CRGB leds[LED_COUNT];
-
-class RgbLed {
+class KRgbLed {
   private:
     int ledCount;
     int pin;
@@ -17,17 +13,18 @@ class RgbLed {
     CRGB onColour;
     CRGB* onColours;
     CRGB offColour;
+    bool on;
   public:
-    RgbLed(int pin, CRGB offColour, CRGB onColour, int ledCount);
-    RgbLed(int pin, CRGB offColour, CRGB onColours[]);
-    //void init();
-    template< uint8_t PIN = 0>
-    void init() {
+    KRgbLed(int pin, int ledCount, CRGB offColour, CRGB onColour);
+    KRgbLed(int pin, int ledCount, CRGB offColour, CRGB onColours[]);
+    template< uint8_t PIN = 0> void init() {
       leds = new CRGB[ledCount];
       FastLED.addLeds< WS2812B, PIN, RGB >(leds, ledCount);
+      turnOff();
     }
-    // void check();
-    // bool isPressed();
+    void turnOn();
+    void turnOff();
+    void switchState();
 };
 
 #endif
