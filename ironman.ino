@@ -1,74 +1,87 @@
-
 #include "KButton.h"
 #include "KRgbLed.h"
 #include "KServo.h"
 #include "KGyro.h"
+#include "UTILS.h"
 
-//KButton repulsorButton(2);
-//KButton stonesButton(3);
-//KButton servoButton(4);
-//KServo servo(10);
+// KButton repulsorButton(2);
+// KButton stonesButton(3);
+KButton servoButton(4);
+KServo servo(10);
 KGyro gyro;
-// #define DEGUB_MODE
 
-//CRGB stones[] = {CRGB::Red, CRGB::Blue, CRGB::Green};
+CRGB stonesColors[] = {CRGB::Red, CRGB::Blue, CRGB::Green, CRGB::Yellow, CRGB::Purple, CRGB::Orange};
+KRgbLed repulsorLeft(3, CRGB::Black, CRGB::WhiteSmoke);
+KRgbLed repulsorRight(3, CRGB::Black, CRGB::WhiteSmoke);
+KRgbLed stones(6, CRGB::Black, stonesColors);
+KRgbLed arcReactor(6, CRGB::Black, CRGB::WhiteSmoke);
 
-//KRgbLed led1(6, 3, CRGB::Black, CRGB::Red);
-//KRgbLed led2(6, 3, CRGB::Black, CRGB::Blue);
+bool repulsorOn = false;
+float onRepulsorAngle = 0xFFFFFF;
 
 void setup() {
   Serial.begin(9600);
-//  repulsorButton.init();
-//  stonesButton.init();
-//  servoButton.init();
-//  servo.init(50, 103);
-//  led1.init<6>();
-//  led2.init<6>();
+  // repulsorButton.init();
+  // stonesButton.init();
+  servoButton.init();
+  servo.init(50, 103);
+  repulsorLeft.init<5>();
+  repulsorRight.init<5>();
+  stones.init<5>();
+  arcReactor.init<5>();
+
   gyro.init();
+  arcReactor.turnOn();
 }
-
-
-
 
 void loop() {
-//  check(repulsorButton, led1);
-//  check(stonesButton, led2);
-//
-//  if(servoButton.isChange()) {
-//   if(servoButton.isPressed()) {
-//    if(servo.isOpen()) {
-//     servo.close();
-//    } else {
-//     servo.open();
-//    }
-//   }
-//  }
+//  checkButton(repulsorButton, led1);
+//  checkButton(stonesButton, led2);
 
+  checkServo();
+  checkGyro();
+}
+
+inline void checkButton(KButton &b, KRgbLed &l) {
+  if(b.isChange() && b.isPressed()) l.switchState();
+}
+
+inline void checkServo() {
+   if(servoButton.isChange() && servoButton.isPressed())
+     if(servo.isOpen()) servo.close();
+     else servo.open();
+}
+
+inline void checkGyro() {
   gyro.checkState();
+  print(F("#GYR:"));
+  print(gyro.getX(), 2);
+  print(F(","));
+  print(gyro.getY(), 2);
 
-  Serial.print(F("#GYR:"));
-  Serial.print(gyro.getX(), 2);        //Gyroscope angle
-  Serial.print(F(","));
-  Serial.print(gyro.getY(), 2);
-
-   if(gyro.getY() < -60) {
-   Serial.print(" ");
-   if(gyro.getX() < 50 && gyro.getX() > -50) {
-     Serial.print("ON REPULSOR ");
-   }
+  if(gyro.getY() < -60) {
+    if(!repulsorOn) {
+      print("ON REPULSOR ");
+      repulsorLeft.turnOn();
+      repulsorRight.turnOn();
+      repulsorOn = true;
+      onRepulsorAngle = gyro.getX();
+    } else {
+      // if(gyro.getX() < 50 && gyro.getX() > -50) {
+      //
+      // }
+    }
  } else {
-   Serial.print(" ");
-   if(gyro.getX() < 50 && gyro.getX() > -50) {
-     Serial.print("OFF REPULSOR ");
+   if(repulsorOn) {
+//   if(gyro.getX() < 50 && gyro.getX() > -50) {
+     print("OFF REPULSOR ");
+     repulsorLeft.turnOff();
+     repulsorRight.turnOff();
+     repulsorOn = false;
+     onRepulsorAngle = 0xFFFFFF;
    }
  }
- Serial.println("\n");
+ print("\n");
 }
-
-void check(KButton &b, KRgbLed &l) {
-  if(b.isChange()) {
-    if(b.isPressed()) {
-      l.switchState();
-    }
-  }
-}
+// resetFunc();  //call reset
+// void(* resetFunc) (void) = 0;//declare reset function at address 0

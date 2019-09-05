@@ -1,7 +1,6 @@
 #include "KRgbLed.h"
 
-KRgbLed::KRgbLed(int pin, int ledCount, CRGB offColour, CRGB onColour) {
-  this->pin = pin;
+KRgbLed::KRgbLed(int ledCount, CRGB offColour, CRGB onColour) {
   this->ledCount = ledCount;
   this->onColour = onColour;
   this->offColour = offColour;
@@ -9,8 +8,7 @@ KRgbLed::KRgbLed(int pin, int ledCount, CRGB offColour, CRGB onColour) {
   this->on = true;
 }
 
-KRgbLed::KRgbLed(int pin, int ledCount, CRGB offColour, CRGB onColour[]) {
-  this->pin = pin;
+KRgbLed::KRgbLed(int ledCount, CRGB offColour, CRGB onColour[]) {
   this->ledCount = ledCount;
   this->offColour = offColour;
   this->onColours = onColours;

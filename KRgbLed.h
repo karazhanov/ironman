@@ -7,7 +7,6 @@
 class KRgbLed {
   private:
     int ledCount;
-    int pin;
     CRGB* leds;
     bool twoColour;
     CRGB onColour;
@@ -15,8 +14,8 @@ class KRgbLed {
     CRGB offColour;
     bool on;
   public:
-    KRgbLed(int pin, int ledCount, CRGB offColour, CRGB onColour);
-    KRgbLed(int pin, int ledCount, CRGB offColour, CRGB onColours[]);
+    KRgbLed(int ledCount, CRGB offColour, CRGB onColour);
+    KRgbLed(int ledCount, CRGB offColour, CRGB onColours[]);
     template< uint8_t PIN = 0> void init() {
       leds = new CRGB[ledCount];
       FastLED.addLeds< WS2812B, PIN, RGB >(leds, ledCount);

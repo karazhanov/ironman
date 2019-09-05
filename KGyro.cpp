@@ -74,21 +74,21 @@ void KGyro::checkState() {
   // Apply the complementary filter to figure out the change in angle - choice of alpha is
   // estimated now.  Alpha depends on the sampling rate...
   float alpha = 0.95;
-  float angle_x = alpha*gyro_angle_x + (1.0 - alpha)*accel_angle_x;
-  float angle_y = alpha*gyro_angle_y + (1.0 - alpha)*accel_angle_y;
-  float angle_z = gyro_angle_z;  //Accelerometer doesn't give z-angle
+  angle_x = alpha*gyro_angle_x + (1.0 - alpha)*accel_angle_x;
+  angle_y = alpha*gyro_angle_y + (1.0 - alpha)*accel_angle_y;
+  angle_z = gyro_angle_z;  //Accelerometer doesn't give z-angle
   // Update the saved data with the latest values
   set_last_read_angle_data(t_now, angle_x, angle_y, angle_z, unfiltered_gyro_angle_x, unfiltered_gyro_angle_y, unfiltered_gyro_angle_z);
 }
 
 float KGyro::getX() {
-  return unfiltered_gyro_angle_x;
+  return angle_x;
 }
 
 float KGyro::getY() {
-  return unfiltered_gyro_angle_y;
+  return angle_y;
 }
 
 float KGyro::getZ() {
-  return unfiltered_gyro_angle_z;
+  return angle_z;
 }

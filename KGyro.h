@@ -102,6 +102,10 @@ class KGyro {
     float unfiltered_gyro_angle_y;
     float unfiltered_gyro_angle_z;
 
+    float angle_x;
+    float angle_y;
+    float angle_z;
+
     inline unsigned long get_last_time() {return last_read_time;}
     inline float get_last_x_angle() {return last_x_angle;}
     inline float get_last_y_angle() {return last_y_angle;}
