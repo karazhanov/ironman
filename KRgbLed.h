@@ -13,11 +13,15 @@ class KRgbLed {
     CRGB* onColours;
     CRGB offColour;
     bool on;
+    uint8_t pin;
   public:
     KRgbLed(int ledCount, CRGB offColour, CRGB onColour);
     KRgbLed(int ledCount, CRGB offColour, CRGB onColours[]);
     template< uint8_t PIN = 0> void init() {
       leds = new CRGB[ledCount];
+      Serial.print("LED INIT ON PIN ");
+      pin = PIN;
+      Serial.println(PIN);
       FastLED.addLeds< WS2812B, PIN, RGB >(leds, ledCount);
       turnOff();
     }

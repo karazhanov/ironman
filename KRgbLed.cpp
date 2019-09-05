@@ -19,6 +19,8 @@ KRgbLed::KRgbLed(int ledCount, CRGB offColour, CRGB onColour[]) {
 void KRgbLed::turnOn() {
   if(!on) {
     on = true;
+    Serial.print("KRgbLed::turnOn() on pin ");
+    Serial.println(pin);
     if(twoColour) {
       FastLED.showColor(onColour);
     } else {
@@ -33,6 +35,8 @@ void KRgbLed::turnOn() {
 
 void KRgbLed::turnOff() {
   if(on) {
+    Serial.print("KRgbLed::turnOff() on pin ");
+    Serial.println(pin);
     on = false;
     FastLED.showColor(offColour);
     delay(50);
