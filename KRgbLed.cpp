@@ -8,7 +8,7 @@ KRgbLed::KRgbLed(int ledCount, CRGB offColour, CRGB onColour) {
   this->on = true;
 }
 
-KRgbLed::KRgbLed(int ledCount, CRGB offColour, CRGB onColour[]) {
+KRgbLed::KRgbLed(int ledCount, CRGB offColour, CRGB onColours[]) {
   this->ledCount = ledCount;
   this->offColour = offColour;
   this->onColours = onColours;
@@ -19,27 +19,20 @@ KRgbLed::KRgbLed(int ledCount, CRGB offColour, CRGB onColour[]) {
 void KRgbLed::turnOn() {
   if(!on) {
     on = true;
-    Serial.print("KRgbLed::turnOn() on pin ");
-    Serial.println(pin);
-    if(twoColour) {
-      FastLED.showColor(onColour);
-    } else {
       for(int i=0; i<ledCount; i++) {
-        leds[i] = onColours[i];
+        leds[i] = twoColour ? onColour : onColours[i];
       }
-      FastLED.show();
-    }
-    delay(50);
+      needUpdate();
   }
 }
 
 void KRgbLed::turnOff() {
   if(on) {
-    Serial.print("KRgbLed::turnOff() on pin ");
-    Serial.println(pin);
     on = false;
-    FastLED.showColor(offColour);
-    delay(50);
+    for(int i=0; i<ledCount; i++) {
+        leds[i] = offColour;
+    }
+    needUpdate();
   }
 }
 
