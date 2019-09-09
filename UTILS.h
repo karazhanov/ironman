@@ -1,4 +1,4 @@
-#define DEGUB_MODE
+//#define DEGUB_MODE
 
 inline void print(char* s) {
   #ifdef DEGUB_MODE

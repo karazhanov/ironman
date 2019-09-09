@@ -20,20 +20,6 @@ void KServo::open() {
   opened = true;
 }
 
-void KServo::inc() {
-  int i = servo.read()+1;
-  servo.write(i);
-  Serial.print("Current angle = ");
-  Serial.println(i);
-}
-
-void KServo::dec() {
-  int i = servo.read()-1;
-  servo.write(i);
-  Serial.print("Current angle = ");
-  Serial.println(i);
-}
-
 void KServo::close() {
   servo.write(closeState);
   opened = false;
@@ -41,4 +27,14 @@ void KServo::close() {
 
 int KServo::getState() {
   return servo.read();
+}
+
+void KServo::inc() {
+  servo.write(servo.read()+1);
+  delay(15);
+}
+
+void KServo::dec() {
+  servo.write(servo.read()-1);
+  delay(15);
 }
