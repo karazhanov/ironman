@@ -10,7 +10,7 @@ KButton servoButton(4);
 KServo servo(10);
 KGyro gyro;
 
-CRGB stonesColors[] = {CRGB::Red, CRGB::Blue, CRGB::Green, CRGB::Yellow, CRGB::Purple, CRGB::Orange};
+CRGB stonesColors[] = {CRGB::Orange, CRGB::Red, CRGB::Purple, CRGB::Blue, CRGB::Green, CRGB::Yellow};
 
 KRgbLed repulsorLeft(3, CRGB::Black, CRGB::WhiteSmoke);
 KRgbLed repulsorRight(3, CRGB::Black, CRGB::White);
